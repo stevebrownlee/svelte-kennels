@@ -29,3 +29,10 @@
   }}>
   Create Animal
 </button>
+
+<button
+  on:click={() => {
+    animals.getAnimals();
+  }}>
+  Get Animals
+</button>

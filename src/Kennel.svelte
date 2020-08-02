@@ -26,4 +26,5 @@
 <main>
   <h1>Nashville Kennels</h1>
   <AnimalList />
+  <AnimalList />
 </main>

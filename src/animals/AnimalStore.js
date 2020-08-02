@@ -1,8 +1,24 @@
 import { writable } from 'svelte/store';
 
 
+/*
+    Initialize the creation of a custom, writeable store that
+    exposes the `subscribe` function (which lets other components
+    use the animal array), the `createAnimal` function that
+    creates a new animal in the API, and the `getAnimals` function
+    that pulls the animals from the API and updates the writeable
+    store on success.
+
+    This allows you to control what other components have access
+    to on the writeable store. For example, other components do
+    not have the ability to invoke `animals.set()` because the set()
+    function is not returned from the init() function.
+*/
 const init = () => {
-    const { subscribe, set, update } = writable([]);
+    let _animals = []
+    let _synced = false
+
+    const { subscribe, set } = writable(_animals);
 
     const createAnimal = async (animal) => {
         const response = await fetch("http://localhost:8088/animals", {
@@ -15,18 +31,25 @@ const init = () => {
         const new_animal = await response.json();
 
         if (response.ok) {
+            _synced = false
             await getAnimals()
         }
 
     }
 
     const getAnimals = async () => {
-      const response = await fetch("http://localhost:8088/animals");
-      const animals = await response.json();
+        if (!_synced) {
+            _synced = true
+            const response = await fetch("http://localhost:8088/animals");
+            const animals = await response.json();
 
-      set(animals);
+            if (response.ok) {
+                set(animals);
+            } else {
+                _synced = false
+            }
+        }
     };
-
 
     return {
         subscribe,
