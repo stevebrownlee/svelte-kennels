@@ -1,5 +1,6 @@
 <script>
   import AnimalList from "./animals/AnimalList.svelte";
+  import AnimalMiniList from "./animals/AnimalMiniList.svelte";
 </script>
 
 <style>
@@ -21,10 +22,19 @@
       max-width: none;
     }
   }
+
+  .splitScreen {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 </style>
 
 <main>
   <h1>Nashville Kennels</h1>
-  <AnimalList />
-  <AnimalList />
+
+  <div class="splitScreen">
+    <AnimalList />
+    <AnimalMiniList />
+  </div>
 </main>

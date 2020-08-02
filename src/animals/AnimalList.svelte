@@ -13,26 +13,26 @@
     locationId: 1,
   };
 
-  animals.getAnimals()
+  animals.getAnimals();
 </script>
 
-
 <article class="animals">
+
+  <button
+    on:click={() => {
+      animals.createAnimal(test_animal);
+    }}>
+    Create Animal
+  </button>
+
+  <button
+    on:click={() => {
+      animals.getAnimals();
+    }}>
+    Get Animals
+  </button>
+
   {#each $animals as animal}
     <Animal {...animal} />
   {/each}
 </article>
-
-<button
-  on:click={() => {
-    animals.createAnimal(test_animal);
-  }}>
-  Create Animal
-</button>
-
-<button
-  on:click={() => {
-    animals.getAnimals();
-  }}>
-  Get Animals
-</button>
