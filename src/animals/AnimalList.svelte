@@ -29,9 +29,9 @@
 
 <article class="animalsContainer">
   <button on:click={() => createAnimal(test_animal)}>Create Test Animal</button>
+  <button on:click={() => getAnimals()}> Get Animals </button>
 
   <div class="animal-list">
-
     {#each $animals as animal}
       <section class="animal">
         <div class="animal--name">
@@ -40,6 +40,5 @@
         <div class="animal--breed">{animal.breed}</div>
       </section>
     {/each}
-
   </div>
 </article>
