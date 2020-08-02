@@ -1,20 +1,45 @@
 <script>
-    import { animals, getAnimals } from "./AnimalStore.js";  // Import the data store
+  import { animals, getAnimals, createAnimal } from "./AnimalStore.js"; // Import the data store
 
-    getAnimals();  // Kick off getting animals into application state
-  </script>
+  getAnimals(); // Kick off getting animals into application state
 
-  <!--
-      Note that the animals data is preceded with a $
-      That's what makes it reactive. As soon as the `getAnimals()`
-      function is invoked in the data store, $animals, updates
-      here and the list re-renders.
-   -->
-  <article class="animals">
+  const test_animal = {
+    name: "Test",
+    breed: "Jack Russell",
+    customerId: 2,
+    locationId: 1,
+  };
+</script>
+
+<style>
+  .animalsContainer {
+    flex: 2;
+  }
+  .animal-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .animal {
+    flex-basis: 30%;
+  }
+</style>
+
+<article class="animalsContainer">
+  <button on:click={() => createAnimal(test_animal)}>Create Test Animal</button>
+
+  <div class="animal-list">
+
     {#each $animals as animal}
       <section class="animal">
-          <div class="animal--name"><h2>{ animal.name }</h2></div>
-          <div class="animal--breed">{ animal.breed }</div>
+        <div class="animal--name">
+          <h2>{animal.name}</h2>
+        </div>
+        <div class="animal--breed">{animal.breed}</div>
       </section>
     {/each}
-  </article>
+
+  </div>
+</article>

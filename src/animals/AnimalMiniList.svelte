@@ -1,10 +1,13 @@
 <script>
-  import Animal from "./Animal.svelte";
   import { animals, getAnimals } from "./AnimalStore.js";
-
   getAnimals()
 </script>
 
+<style>
+    .animals {
+        flex: 1;
+    }
+</style>
 
 <article class="animals">
   {#each $animals as animal}
