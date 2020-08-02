@@ -15,10 +15,9 @@ import { writable } from 'svelte/store';
     function is not returned from the init() function.
 */
 const init = () => {
-    let _animals = []
-    let _synced = false
+    let _synced = false  // Used to prevents redundant HTTP requests
 
-    const { subscribe, set } = writable(_animals);
+    const { subscribe, set } = writable([]);  // Create store
 
     const createAnimal = async (animal) => {
         const response = await fetch("http://localhost:8088/animals", {
@@ -31,7 +30,7 @@ const init = () => {
         const new_animal = await response.json();
 
         if (response.ok) {
-            _synced = false
+            _synced = false   // API state has changed, so store is out of sync
             await getAnimals()
         }
 
@@ -39,14 +38,17 @@ const init = () => {
 
     const getAnimals = async () => {
         if (!_synced) {
+            // Set as synced immediately in case 2 components need data simultaneously
             _synced = true
+
+            // Get API state
             const response = await fetch("http://localhost:8088/animals");
             const animals = await response.json();
 
             if (response.ok) {
-                set(animals);
+                set(animals);  // States are in sync
             } else {
-                _synced = false
+                _synced = false  // Request failed, states not in sync
             }
         }
     };
@@ -57,6 +59,5 @@ const init = () => {
         getAnimals
     }
 }
-
 
 export const animals = init()
