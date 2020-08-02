@@ -1,9 +1,8 @@
 <script>
-  import AnimalProvider from "./AnimalProvider.svelte";
   import Animal from "./Animal.svelte";
-  import { animals } from "./AnimalStore.js";
+  import { animals, getAnimals } from "./AnimalStore.js";
 
-  animals.getAnimals()
+  getAnimals()
 </script>
 
 

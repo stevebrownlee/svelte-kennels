@@ -1,63 +1,16 @@
+// Required import for a writable store of data
 import { writable } from 'svelte/store';
 
+const { subscribe, set } = writable([]);  // Create store
 
-/*
-    Initialize the creation of a custom, writeable store that
-    exposes the `subscribe` function (which lets other components
-    use the animal array), the `createAnimal` function that
-    creates a new animal in the API, and the `getAnimals` function
-    that pulls the animals from the API and updates the writeable
-    store on success.
+export const animals = { subscribe }  // Export subscriptable data
 
-    This allows you to control what other components have access
-    to on the writeable store. For example, other components do
-    not have the ability to invoke `animals.set()` because the set()
-    function is not returned from the init() function.
-*/
-const init = () => {
-    let _synced = false  // Used to prevents redundant HTTP requests
+export const getAnimals = async () => {  // Export GET call
+    const response = await fetch("http://localhost:8088/animals");  // Get API state
+    const animals = await response.json();
 
-    const { subscribe, set } = writable([]);  // Create store
-
-    const createAnimal = async (animal) => {
-        const response = await fetch("http://localhost:8088/animals", {
-            "method": "POST",
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": JSON.stringify(animal)
-        });
-        const new_animal = await response.json();
-
-        if (response.ok) {
-            _synced = false   // API state has changed, so store is out of sync
-            await getAnimals()
-        }
-
+    if (response.ok) {
+        set(animals);  // Set the data to API state
     }
+};
 
-    const getAnimals = async () => {
-        if (!_synced) {
-            // Set as synced immediately in case 2 components need data simultaneously
-            _synced = true
-
-            // Get API state
-            const response = await fetch("http://localhost:8088/animals");
-            const animals = await response.json();
-
-            if (response.ok) {
-                set(animals);  // States are in sync
-            } else {
-                _synced = false  // Request failed, states not in sync
-            }
-        }
-    };
-
-    return {
-        subscribe,
-        createAnimal,
-        getAnimals
-    }
-}
-
-export const animals = init()

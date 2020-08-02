@@ -1,38 +1,20 @@
 <script>
-  import AnimalProvider from "./AnimalProvider.svelte";
-  import Animal from "./Animal.svelte";
-  import { animals } from "./AnimalStore.js";
+    import { animals, getAnimals } from "./AnimalStore.js";  // Import the data store
 
-  /*
-    State variable holding an object representation of an animal.
-  */
-  const test_animal = {
-    name: "Test",
-    breed: "Jack Russell",
-    customerId: 2,
-    locationId: 1,
-  };
+    getAnimals();  // Kick off getting animals into application state
+  </script>
 
-  animals.getAnimals();
-</script>
-
-<article class="animals">
-
-  <button
-    on:click={() => {
-      animals.createAnimal(test_animal);
-    }}>
-    Create Animal
-  </button>
-
-  <button
-    on:click={() => {
-      animals.getAnimals();
-    }}>
-    Get Animals
-  </button>
-
-  {#each $animals as animal}
-    <Animal {...animal} />
-  {/each}
-</article>
+  <!--
+      Note that the animals data is preceded with a $
+      That's what makes it reactive. As soon as the `getAnimals()`
+      function is invoked in the data store, $animals, updates
+      here and the list re-renders.
+   -->
+  <article class="animals">
+    {#each $animals as animal}
+      <section class="animal">
+          <div class="animal--name"><h2>{ animal.name }</h2></div>
+          <div class="animal--breed">{ animal.breed }</div>
+      </section>
+    {/each}
+  </article>
