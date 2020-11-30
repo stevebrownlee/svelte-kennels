@@ -28,14 +28,18 @@
 </style>
 
 <article class="animalsContainer">
-  <button on:click={() => createAnimal(test_animal)}>Create Test Animal</button>
-  <button on:click={() => getAnimals()}> Get Animals </button>
+  <button on:click={
+      () => createAnimal(test_animal)
+    }>Create Test Animal</button>
+  <button on:click={() => {
+    getAnimals()
+    }}> Get Animals </button>
 
   <div class="animal-list">
     {#each $animals as animal}
       <section class="animal">
         <div class="animal--name">
-          <h2>{animal.name}</h2>
+          <h2><a href="/animal/{animal.id}">{animal.name}</a></h2>
         </div>
         <div class="animal--breed">{animal.breed}</div>
       </section>

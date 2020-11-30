@@ -1,10 +1,27 @@
 // Required import for a writable store of data
 import { writable } from 'svelte/store';
 
-const { subscribe, set } = writable([]);  // Create store
+const { subscribe, set, update } = writable([]);  // Create store
 let _synced = false
 
 export const animals = { subscribe }  // Export subscriptable data
+
+export const getAnimal = async (id) => {  // Export GET call
+    if (!_synced) {
+        const response = await fetch(`http://localhost:8088/animals/${id}`);  // Get API state
+        const animal = await response.json();
+
+        if (response.ok) {
+            return animal
+        }
+    }
+    else {
+        let data = null
+        subscribe(value => data = value)
+
+        return data.find(a => a.id === id) || {}
+    }
+};
 
 export const getAnimals = async () => {  // Export GET call
     if (!_synced) {
@@ -34,6 +51,6 @@ export const createAnimal = async (animal) => {
 
     if (response.ok) {
         _synced = false
-        await getAnimals()
     }
 }
+
