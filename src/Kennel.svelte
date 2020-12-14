@@ -1,9 +1,11 @@
 <script>
+    import router from "page";
     import AnimalList from "./animals/AnimalList.svelte";
     import AnimalMiniList from "./animals/AnimalMiniList.svelte";
-    import router from "page";
     import Animal from "./animals/Animal.svelte";
 
+    // These are state variables, and the HTML will update reactively
+    // No need for useState() or useEffect()
     let page = null;
     let params = null;
 
@@ -96,7 +98,5 @@
 
     <div class="splitScreen">
         <svelte:component this={page} {params} />
-        <!-- <AnimalList />
-    <AnimalMiniList /> -->
     </div>
 </main>
