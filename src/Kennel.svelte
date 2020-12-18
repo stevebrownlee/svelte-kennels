@@ -64,12 +64,6 @@
         }
     }
 
-    .splitScreen {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-    }
-
     nav {
         background-color: aliceblue;
         padding: 0.5rem;
@@ -96,7 +90,7 @@
 <main>
     <h1>Nashville Kennels</h1>
 
-    <div class="splitScreen">
+    <div>
         <svelte:component this={page} {params} />
     </div>
 </main>
